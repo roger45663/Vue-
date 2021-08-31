@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>自定義指令</title>
+		<!-- 引入Vue -->
+		<script type="text/javascript" src="../js/vue.js"></script>
+	</head>
+	<body>
+		<div id="root">
+			<h2>插值語法</h2>
+			<p>當前的值是: {{ n }}</p>
+
+			<h2>自定義指令語法</h2>
+			<p>當前的值是: <span v-big="n"></span></p>
+
+			<button @click="n++">點我n++</button>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		Vue.config.productionTip = false 
+
+		new Vue({
+			el:'#root',
+			data:{
+				n:1
+			},
+			directives: {
+				/*
+					自定義指令會得到兩個值
+						element: 指令節點上的真實DOM
+						binding: 該節點儲存的相關資料，包含傳入的值、表達式的呈現等
+					觸發渲染機制: 
+						1. 初始化時，即Vue編譯完該指令時
+						2. 當所在的模板的任一所使用的資料變更時，即會觸發
+				*/
+				
+				big(element, binding) {
+					console.log('tirgger big directive');
+
+					element.innerText = binding.value * 10;
+				}
+			}
+		})
+	</script>
+</html>

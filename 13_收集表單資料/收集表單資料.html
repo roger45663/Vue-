@@ -6,6 +6,20 @@
 		<script type="text/javascript" src="../js/vue.js"></script>
 	</head>
 	<body>
+		<!-- 
+			收集表單資料：
+				若為 <input type="text"/>，則v-model收集的是value的值，也就是來自使用者输入。
+				若為 <input type="radio"/>，則v-model收集的是value的值，但必須先配給該標籤value。
+				若：<input type="checkbox"/>
+					1.若沒有配置input的value屬性，那麼收集的就是checked（勾選 or 未勾選，是布林值）
+					2.若有配置input的value屬性:
+						(1)若v-model的初始值是非陣列的值，那麼收集的就是checked（勾選 or 未勾選，是布林值）
+						(2)若v-model的初始值是陣列，那麼收集的的就是value所组成的陣列
+				附加：v-model的三个修飾符：
+					lazy：當失去焦点時才會觸發收集資料
+					number：輸入的字串會被轉為數值
+					trim：輸入的值的首尾，若有空格則會被濾掉，而首尾之間的空格則不會
+		-->
 		<!-- 準備好一個容器-->
 		<div id="app" @submit.prevent="submit">
 			<form>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>過濾器</title>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript" src="../js/dayjs.min.js"></script>
+	</head>
+	<body>
+		<!-- 
+			過濾器：
+				定義：對要顯示的資料進行特定的格式化後再顯示（適用於一些簡單邏輯的處理）。
+				語法：
+					1.註冊過濾器：Vue.filter(name,callback) <= 全域註冊 或 new Vue{filters:{}} <= 區域註冊
+					2.如何使用過濾器：{{ 要被過濾的或要被處理的資料 | 過濾器名}}  或  v-bind:屬性 = "要被過濾的或要被處理的資料 | 過濾器名"
+				備註：
+					1.過濾器也可以接收額外的參數、多個過濾器之間也可以互相串聯
+					2.没有改變原本的資料, 而是產生新的被處理的資料
+		-->
+		<!-- 準備好一個容器-->
+		<div id="root">
+			<h2>格式化後的時間</h2>
+			<!-- computed屬性實現 -->
+			<h3>現在是：{{formatTime}}</h3>
+			<!-- methods方法實現 -->
+			<h3>現在是：{{getFormatTime()}}</h3>
+			<!-- 過濾器實現 -->
+			<h3>現在是：{{time | timeFormater}}</h3>
+			<!-- 過濾器實現（傳參數） -->
+			<h3>現在是：{{time | timeFormater('YYYY_MM_DD') | mySlice}}</h3>
+			<h3 :x="msg | mySlice">尚硅谷</h3>
+		</div>
+
+		<div id="root2">
+			<h2>{{msg | mySlice}}</h2>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		Vue.config.productionTip = false
+		//全域過濾器
+		Vue.filter('mySlice',function(value){
+			return value.slice(0,4)
+		})
+		
+		new Vue({
+			el:'#root',
+			data:{
+				time:1621561377603, //時間戳
+				msg:'你好，尚硅谷'
+			},
+			computed: {
+				formatTime(){
+					return dayjs(this.time).format('YYYY年MM月DD日 HH:mm:ss')
+				}
+			},
+			methods: {
+				getFormatTime(){
+					return dayjs(this.time).format('YYYY年MM月DD日 HH:mm:ss')
+				}
+			},
+			//區域過濾器
+			filters:{
+				timeFormater(value,str='YYYY年MM月DD日 HH:mm:ss'){
+					// console.log('@',value)
+					return dayjs(value).format(str)
+				}
+			}
+		})
+
+		new Vue({
+			el:'#root2',
+			data:{
+				msg:'hello,atguigu!'
+			}
+		})
+	</script>
+</html>

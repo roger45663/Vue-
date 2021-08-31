@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>收集表單資料</title>
+		<script type="text/javascript" src="../js/vue.js"></script>
+	</head>
+	<body>
+		<!-- 準備好一個容器-->
+		<div id="app" @submit.prevent="submit">
+			<form>
+				帳號：<input type="text" v-model="memberInfo.account"> <br/><br/>
+				密碼：<input type="password" v-model="memberInfo.pwd"> <br/><br/>
+				年齡：<input type="number" v-model.number="memberInfo.age"> <br/><br/>
+				性别：
+				男<input type="radio" name="gender" v-model="memberInfo.gender" value="male">
+				女<input type="radio" name="gender" v-model="memberInfo.gender" value="female"> <br/><br/>
+				愛好：
+				聽音樂<input type="checkbox" v-model="memberInfo.hobbies" value="music">
+				玩電玩<input type="checkbox" v-model="memberInfo.hobbies" value="game">
+				吃東西<input type="checkbox" v-model="memberInfo.hobbies" value="eat">
+				<br/><br/>
+				居住地
+				<select v-model="memberInfo.area">
+					<option value="">请選擇地區</option>
+					<option value="taipei">台北</option>
+					<option value="taichung">台中</option>
+					<option value="tainan">台南</option>
+					<option value="kaoshiung">高雄</option>
+				</select>
+				<br/><br/>
+				其他信息：
+				<textarea></textarea> <br/><br/>
+				<input type="checkbox" v-model="memberInfo.isAgree">閱讀並接受<a href="http://www.atguigu.com">《用户協議》</a>
+				<button>提交</button>
+			</form>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		Vue.config.productionTip = false
+
+		new Vue({
+			el:'#app',
+			data:{
+				memberInfo: {
+					account: '',
+					pwd: '',
+					age: 0,
+					gender: 'male',
+					hobbies: [],
+					area: '',
+					isAgree: false
+				}
+			},
+			methods: {
+				submit(e) {
+					console.log('送出的會員資料: ', JSON.stringify(this.memberInfo));
+				}
+			}
+		})
+	</script>
+</html>

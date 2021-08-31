@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>v-text指令</title>
+		<!-- 引入Vue -->
+		<script type="text/javascript" src="../js/vue.js"></script>
+	</head>
+	<body>
+		<!-- 
+			學過的指令：
+				v-bind	: 單向資料绑定，可解析表達式, 可簡寫為 :xxx
+				v-model	: 雙向資料绑定
+				v-for  	: 遍歷陣列/物件/字串
+				v-on   	: 绑定事件監聽, 可簡寫為@
+				v-if 	: 條件渲染（動態地控制節點是否存在）
+				v-else 	: 條件渲染（動態地控制節點是否存在）
+				v-show 	: 條件渲染 (動態地控制節點是否顯示)
+			v-text指令：
+				1.作用：向其所在的節點渲染文字内容。
+				2.與插值語法的差異：v-text會替換掉節點中原本的内容，{{xx}}則不會。
+		-->
+		<!-- 準備好一個容器-->
+		<div id="root">
+			<div>你好，{{name}}</div>
+			<div v-text="name"></div>
+			<div v-text="str"></div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		Vue.config.productionTip = false //阻止 vue 在啟動時生成生產提示。
+		
+		new Vue({
+			el:'#root',
+			data:{
+				name:'尚硅谷',
+				str:'<h3>你好啊！</h3>'
+			}
+		})
+	</script>
+</html>

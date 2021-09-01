@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>初識Vue</title>
+		<!-- 引入Vue -->
+		<script type="text/javascript" src="../js/vue.js"></script>
+	</head>
+	<body>
+		<!-- 
+			初識Vue：
+				1.想讓Vue工作，就必須創建一個Vue實例，且要傳入一個配置物件；
+				2.app容器里的程式碼依然符合需html的規範，只不過混入了一些特殊的Vue語法；
+				3.app容器里的程式碼被稱為【Vue模板】；
+				4.Vue實例和容器是相依對應的；
+				5.真實開發中只有一個Vue實例，並且會配合著元件一起使用；
+				6.{{xxx}}中的xxx要寫js的表達式，且xxx可以讀取到data中的所有屬性；
+				7.一旦data中的資料發生改變，那麼頁面中用到該資料的地方也會自動更新並重新渲染畫面；
+
+				注意區分：js表達式 和 js程式碼(語句)
+                    1.表達式：一個表達式會返回一個值，可以放在任何一個需要值的地方：
+                        (1). a
+                        (2). a+b
+                        (3). demo(1)
+                        (4). x === y ? 'a' : 'b'
+
+                    2.js程式碼(語句)
+                        (1). if(){}
+                        (2). for(){}
+		-->
+
+		<!-- 容器 -->
+		<div id="app">
+			<h1>Hello，{{name.toUpperCase()}}，{{address}}</h1>
+		</div>
+
+		<script type="text/javascript" >
+			Vue.config.productionTip = false //阻止 vue 在啟動時生成生產提示。
+
+			//創建Vue實例
+			new Vue({
+				el: '#app', //el用於指定當前的Vue實例為哪個容器服務，值通常為css選擇器字串，也可以JS所取得的DOM當作值，但該方式較為少用。
+				data:{ //data中用於存取資料，資料可供el所指定的容器使用。
+					name:'roger',
+					address:'台灣'
+				}
+			})
+
+		</script>
+	</body>
+</html>

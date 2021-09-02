@@ -1,47 +1,63 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<title>自定義指令</title>
-		<!-- 引入Vue -->
-		<script type="text/javascript" src="../js/vue.js"></script>
-	</head>
-	<body>
-		<div id="root">
-			<h2>插值語法</h2>
-			<p>當前的值是: {{ n }}</p>
+    <head>
+        <meta charset="UTF-8" />
+        <title>自定義指令</title>
+        <!-- 引入Vue -->
+        <script type="text/javascript" src="../js/vue.js"></script>
+    </head>
+    <body>
+        <div id="root">
+            <h2>插值語法</h2>
+            <p>當前的值是: {{ n }}</p>
 
-			<h2>自定義指令語法</h2>
-			<p>當前的值是: <span v-big="n"></span></p>
+            <h2>自定義指令語法</h2>
+            <p>當前的值是: <span v-big="n"></span></p>
 
-			<button @click="n++">點我n++</button>
-		</div>
-	</body>
+            <button @click="n++">點我n++</button>
+            <br /><br />
+            <input type="text" v-fbind="n" />
+        </div>
+    </body>
 
-	<script type="text/javascript">
-		Vue.config.productionTip = false 
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
 
-		new Vue({
-			el:'#root',
-			data:{
-				n:1
-			},
-			directives: {
-				/*
+        new Vue({
+            el: "#root",
+            data: {
+                n: 1,
+            },
+            directives: {
+                /*
 					自定義指令會得到兩個值
-						element: 指令節點上的真實DOM
+						element: 指令所綁定的節點
 						binding: 該節點儲存的相關資料，包含傳入的值、表達式的呈現等
 					觸發渲染機制: 
-						1. 初始化時，即Vue編譯完該指令時
+						1. 當指令與元素成功綁定時
 						2. 當所在的模板的任一所使用的資料變更時，即會觸發
 				*/
-				
-				big(element, binding) {
-					console.log('tirgger big directive');
+                big(element, binding) {
+                    console.log("tirgger big directive");
 
-					element.innerText = binding.value * 10;
-				}
-			}
-		})
-	</script>
+                    element.innerText = binding.value * 10;
+                },
+                fbind: {
+                    // 以下為物件型自訂義指令的寫法，並依渲染的順序機制寫下
+                    // 當指令與元素成功綁定時
+                    bind(element, binding) {
+                        element.value = binding.value;
+                    },
+                    // 當 DOM 成功被插入頁面時，在此才能夠操作類似focus或找其父層元素的指令，因為此時 DOM 才有在頁面上渲染
+                    inserted(element, binding) {
+                        element.focus();
+                    },
+                    // 當所在的模板的任一所使用的資料變更時，即會觸發
+                    update(element, binding) {
+                        element.value = binding.value;
+                    },
+                },
+            },
+        });
+    </script>
 </html>

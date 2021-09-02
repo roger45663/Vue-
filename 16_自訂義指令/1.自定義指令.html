@@ -7,6 +7,25 @@
         <script type="text/javascript" src="../js/vue.js"></script>
     </head>
     <body>
+        <!-- 
+			一、定義語法:
+				區域指令: new Vue({
+							directives: {
+								指令名: (回調函數),
+								指令名: {配置物件}
+							}
+						})
+				全域指令: Vue.directive(指令名, (回調函數))
+						 Vue.directive(指令名, {配置物件}) 
+			二、配置物件中常用的三個回調函數
+				bind: 當指令與元素綁定成功時會觸發
+				inserted: 當元素成功插入到頁面時觸發
+				update: 當頁面上的任一所使用的data變更時觸發
+			三、注意事項
+				1.若有使用多個單字組成的命名，請使用kabab-case的寫法，不要使用camelCase
+				2.指令定義時不須加上前綴v-，但使用時需要
+		-->
+
         <div id="root">
             <h2>插值語法</h2>
             <p>當前的值是: {{ n }}</p>
@@ -16,12 +35,28 @@
 
             <button @click="n++">點我n++</button>
             <br /><br />
-            <input type="text" v-fbind="n" />
+            <input type="text" v-focus-bind="n" />
         </div>
     </body>
 
     <script type="text/javascript">
         Vue.config.productionTip = false;
+
+        Vue.directive("focus-bind", {
+            // 以下為物件型自訂義指令的寫法，並依渲染的順序機制寫下
+            // 當指令與元素成功綁定時
+            bind(element, binding) {
+                element.value = binding.value;
+            },
+            // 當 DOM 成功被插入頁面時，在此才能夠操作類似focus或找其父層元素的指令，因為此時 DOM 才有在頁面上渲染
+            inserted(element, binding) {
+                element.focus();
+            },
+            // 當所在的模板的任一所使用的資料變更時，即會觸發
+            update(element, binding) {
+                element.value = binding.value;
+            },
+        });
 
         new Vue({
             el: "#root",
@@ -42,21 +77,21 @@
 
                     element.innerText = binding.value * 10;
                 },
-                fbind: {
-                    // 以下為物件型自訂義指令的寫法，並依渲染的順序機制寫下
-                    // 當指令與元素成功綁定時
-                    bind(element, binding) {
-                        element.value = binding.value;
-                    },
-                    // 當 DOM 成功被插入頁面時，在此才能夠操作類似focus或找其父層元素的指令，因為此時 DOM 才有在頁面上渲染
-                    inserted(element, binding) {
-                        element.focus();
-                    },
-                    // 當所在的模板的任一所使用的資料變更時，即會觸發
-                    update(element, binding) {
-                        element.value = binding.value;
-                    },
-                },
+                // "focus-bind": {
+                //     // 以下為物件型自訂義指令的寫法，並依渲染的順序機制寫下
+                //     // 當指令與元素成功綁定時
+                //     bind(element, binding) {
+                //         element.value = binding.value;
+                //     },
+                //     // 當 DOM 成功被插入頁面時，在此才能夠操作類似focus或找其父層元素的指令，因為此時 DOM 才有在頁面上渲染
+                //     inserted(element, binding) {
+                //         element.focus();
+                //     },
+                //     // 當所在的模板的任一所使用的資料變更時，即會觸發
+                //     update(element, binding) {
+                //         element.value = binding.value;
+                //     },
+                // },
             },
         });
     </script>

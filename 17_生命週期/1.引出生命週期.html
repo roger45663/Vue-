@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>引出生命週期</title>
+        <!-- 引入Vue -->
+        <script type="text/javascript" src="../js/vue.js"></script>
+    </head>
+    <body>
+        <!-- 
+            生命週期，可以稱為生命週期回調函式、生命週期鉤子以及生命週期 
+            作用:
+                可以從vm的創建到卸載的不同階段觸發回調函式，可依開發的需求決定使用哪一個階段的回調函式，除了更新階段，其他生命週期都只會被觸發一次，當中所用的this是指向vm或元件
+            有哪些:
+                mounted: 當模板整個解析完成，並將之掛載到頁面上時隨即觸發該回調函式 
+            -->
+        <div id="root">
+            <h1 :style="{opacity}">生命週期</h1>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        new Vue({
+            el: "#root",
+            data: {
+                opacity: 1,
+            },
+            methods: {
+                animationOpacity() {
+                    setInterval(() => {
+                        this.opacity -= 0.01;
+
+                        if (this.opacity <= 0) {
+                            this.opacity = 1;
+                        }
+                    }, 16);
+                },
+            },
+            // 當模板整個解析完成，並將之掛載到頁面上時隨即觸發該回調函式
+            mounted() {
+                console.log("mounted");
+
+                this.animationOpacity();
+            },
+        });
+    </script>
+</html>

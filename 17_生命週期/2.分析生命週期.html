@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>分析生命週期</title>
+        <!-- 引入Vue -->
+        <script type="text/javascript" src="../js/vue.js"></script>
+    </head>
+    <body>
+        <div id="root" :x="n">
+            <h1>n是: {{n}}</h1>
+            <button type="button" @click="add">點我n+1</button>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        new Vue({
+            el: "#root",
+            // template: `
+            // <div>
+            //     <h1>n是: {{n}}</h1>
+            //     <button type="button" @click="add">點我n+1</button>
+            // </div>`,
+            data: {
+                n: 1,
+            },
+            methods: {
+                add() {
+                    this.n++;
+                },
+            },
+            beforeCreate() {
+                console.log("beforeCreate");
+                // console.log(this);
+                // debugger;
+            },
+            created() {
+                console.log("created");
+                // console.log(this);
+                // debugger;
+            },
+            beforeMount() {
+                console.log("beforeMount");
+                // console.log(this);
+                // debugger;
+            },
+            mounted() {
+                console.log("mounted");
+                // console.log(this.$el instanceof HTMLElement);
+                // debugger;
+            },
+            beforeUpdate() {
+                console.log("beforeUpdate");
+                // console.log(this.n);
+                // debugger;
+            },
+            updated() {
+                console.log("updated");
+                console.log(this.n);
+                debugger;
+            },
+        });
+    </script>
+</html>

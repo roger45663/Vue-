@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>幾個注意事項</title>
+        <!-- 引入Vue -->
+        <script type="text/javascript" src="../js/vue.js"></script>
+    </head>
+    <body>
+        <!-- 
+			關於VueComponent：
+                1.school元件本質是一個名為VueComponent的建構式函數，不是工程師定義的，是Vue.extend生成的。
+
+                2.我们只需要寫<school/>或<school></school>，Vue解析時會幫我們創建school元件的實例對象，即Vue幫我們執行的：new VueComponent(options)。
+
+                3.特别注意：每次呼叫Vue.extend，返回的都是一個全新的VueComponent！！！！
+
+                4.關於this指向：
+                    (1).元件配置中：
+                        data函數、methods中的函數、watch中的函數、computed中的函數 它們的this均是【VueComponent實例對象】。
+                    (2).new Vue(options)配置中：
+                        data函數、methods中的函數、watch中的函數、computed中的函數 它們的this均是【Vue實例對象】。
+
+                5.VueComponent的實例對象，以後簡稱vc（也可稱作：元件實例對象）。
+                  Vue的實例對象，以後簡稱vm。
+		-->
+        <div id="root">
+            <!-- 第三部: 使用元件標籤 -->
+            <School></School>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        // 第一步: 創建Student元件
+        const Student = Vue.extend({
+            name: "Student",
+            template: `
+                <div>
+                    <p>學生姓名: {{studentName}}</p>
+                    <p>學生年齡: {{age}}</p>
+                </div>
+            `,
+            data() {
+                return {
+                    studentName: "Peter",
+                    age: 22,
+                };
+            },
+        });
+
+        // 第一步: 創建School元件
+        const School = Vue.extend({
+            name: "MySchool",
+            template: `
+                <div>
+                    <p>學校名稱: {{schoolName}}</p>
+                    <p>學校地址: {{address}}</p>
+                    <button @click="showSchool">秀出學校</button>
+                    <Student></Student>
+                </div>
+            `,
+            data() {
+                return {
+                    schoolName: "尚硅谷",
+                    address: "上海",
+                };
+            },
+            components: {
+                Student,
+            },
+            methods: {
+                showSchool() {
+                    console.log(this);
+                },
+            },
+        });
+
+        // console.log("school:", School);
+        // console.log("student:", Student);
+
+        // 創建Vue實例
+        const vm = new Vue({
+            el: "#root",
+            // 第二步: 註冊元件(區域的)
+            components: {
+                School,
+            },
+        });
+    </script>
+</html>

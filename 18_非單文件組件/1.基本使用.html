@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>基本使用</title>
+        <!-- 引入Vue -->
+        <script type="text/javascript" src="../js/vue.js"></script>
+    </head>
+    <body>
+        <!-- 
+            元件的建立分三個步驟:
+            1.創建: 創建一個新的元件
+            2.註冊: 在vm上註冊元件
+            3.使用: 在對應的容器裡面引入使用元件標籤
+        註冊元件:
+            1. 區域: 在new Vue裡的components屬性進行註冊
+            2. 全域: 以Vue.component的方式進行全域註冊
+        需要注意的: 
+            el只能在Vue實例上使用，因為最終元件是會被vm來管理，並限制在對應的容器裡使用
+            data必須使用函數的方式回傳一個物件，避免物件傳址的影響，導致互相汙染元件裡的data
+            template必須只能有一個根節點
+         -->
+        <div id="root">
+            <!-- 第三部: 使用元件標籤 -->
+            <Hello></Hello>
+            <School></School>
+            <hr />
+            <Student></Student>
+        </div>
+
+        <div id="root-2">
+            <Hello></Hello>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        // 第一步: 創建School元件
+        const School = Vue.extend({
+            // el: "#root", el只能在創建Vue實例的對象上使用，因為元件最終是由一個vm來管理的
+            template: `
+                <div>
+                    <p>學校名稱: {{schoolName}}</p>
+                    <p>學校地址: {{address}}</p>
+                </div>
+            `,
+            data() {
+                return {
+                    schoolName: "尚硅谷",
+                    address: "上海",
+                };
+            },
+        });
+
+        // 第一步: 創建Student元件
+        const Student = Vue.extend({
+            template: `
+                <div>
+                    <p>學生姓名: {{studentName}}</p>
+                    <p>學生年齡: {{age}}</p>    
+                </div>
+            `,
+            data() {
+                return {
+                    studentName: "Peter",
+                    age: 10,
+                };
+            },
+        });
+
+        // 第一步: 創建Hello元件
+        const Hello = Vue.extend({
+            template: `<h1>Hello Vue!!!!</h1>`,
+        });
+
+        // 第二步: 註冊元件(全域的)
+        Vue.component("Hello", Hello);
+
+        // 創建Vue實例
+        new Vue({
+            el: "#root",
+            // 第二步: 註冊元件(區域的)
+            components: {
+                School,
+                Student,
+            },
+            // data: {
+            //     schoolName: "尚硅谷",
+            //     address: "上海",
+            //     studentName: "Peter",
+            //     age: 10,
+            // },
+        });
+
+        new Vue({
+            el: "#root-2",
+        });
+    </script>
+</html>

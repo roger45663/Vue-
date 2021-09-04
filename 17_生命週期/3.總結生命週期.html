@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>引出生命週期</title>
+        <!-- 引入Vue -->
+        <script type="text/javascript" src="../js/vue.js"></script>
+    </head>
+    <body>
+        <!-- 
+            常用的生命週期:
+            mounted: 可在此發送Ajax請求、啟動定時器、綁定自訂義事件、訂閱消息...等初始化操作
+            beforeDestroy: 解除定時器、解除自訂義事件、取消訂閱消息...等收尾操作
+        銷毀vm所需注意的:
+            1. Vuetool不會再回報任何的信息
+            2. 自訂義事件會被銷毀，但原生綁定的DOM事件仍舊會存在
+            3. 在beforeDestroy中做任何的資料操作已經沒有意義了，因為不會再發生任何變化與更新了
+        -->
+        <div id="root">
+            <h1 :style="{opacity}">生命週期</h1>
+            <button @click="noOpacity">透明度變為1</button>
+            <button @click="stop">停止動畫</button>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        new Vue({
+            el: "#root",
+            data: {
+                opacity: 1,
+            },
+            methods: {
+                animationOpacity() {
+                    this.timer = setInterval(() => {
+                        console.log("透明度變化");
+                        this.opacity -= 0.01;
+
+                        if (this.opacity <= 0) {
+                            this.opacity = 1;
+                        }
+                    }, 16);
+                },
+                noOpacity() {
+                    this.opacity = 1;
+                },
+                stop() {
+                    this.$destroy();
+                },
+            },
+            // 當模板整個解析完成，並將之掛載到頁面上時隨即觸發該回調函式
+            mounted() {
+                console.log("mounted");
+
+                this.animationOpacity();
+            },
+            beforeDestroy() {
+                clearInterval(this.timer);
+            },
+        });
+    </script>
+</html>

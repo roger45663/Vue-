@@ -10,6 +10,7 @@
         <div id="root" :x="n">
             <h1>n是: {{n}}</h1>
             <button type="button" @click="add">點我n+1</button>
+            <button type="button" @click="bye">銷毀vm</button>
         </div>
     </body>
 
@@ -28,7 +29,17 @@
             },
             methods: {
                 add() {
+                    console.log("add");
                     this.n++;
+                },
+                bye() {
+                    console.log("bye");
+                    this.$destroy();
+                },
+            },
+            watch: {
+                n() {
+                    console.log("n被改變了");
                 },
             },
             beforeCreate() {
@@ -58,8 +69,18 @@
             },
             updated() {
                 console.log("updated");
+                // console.log(this.n);
+                // debugger;
+            },
+            beforeDestroy() {
+                console.log("beforeDestroy");
+                this.add();
                 console.log(this.n);
-                debugger;
+            },
+            destroyed() {
+                console.log("destroyed");
+                // console.log(this.n);
+                // this.add();
             },
         });
     </script>

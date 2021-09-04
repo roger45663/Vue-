@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>幾個注意事項</title>
+        <!-- 引入Vue -->
+        <script type="text/javascript" src="../js/vue.js"></script>
+    </head>
+    <body>
+        <!-- 
+			幾個注意事項：
+                1.關於元件命名:
+                    一個單字组成：
+                        第一種寫法(首字母小寫)：school
+                        第二種寫法(首字母大寫)：School
+                    多個單字组成：
+                        第一種寫法(kebab-case命名)：my-school
+                        第二種寫法(CamelCase命名)：MySchool (需要Vue腳手架支持)
+                    備註：
+                        (1).元件名需要避免使用HTML原生使用的標籤名(ex. h1、h2...)
+                        (2).可以使用name配置项指定组件在开发者工具中呈现的名字。
+
+                2.關於元件標籤:
+                    第一種寫法：<school></school>
+                    第二種寫法：<school/>
+                    備註：不使用腳手架時，<school/>會導致後續使用的相同元件無法渲染
+
+                3.元件建立簡寫方式：
+                    const school = Vue.extend(options) 可簡寫為：const school = options
+                    備註: 使用簡寫方式撰寫，最終都還是會被Vue以extend呼叫
+		-->
+        <div id="root">
+            <!-- 第三部: 使用元件標籤 -->
+            <School></School>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        // 第一步: 創建School元件(簡寫方式)
+        const School = {
+            name: "MySchool",
+            template: `
+                <div>
+                    <p>學校名稱: {{schoolName}}</p>
+                    <p>學校地址: {{address}}</p>
+                </div>
+            `,
+            data() {
+                return {
+                    schoolName: "尚硅谷",
+                    address: "上海",
+                };
+            },
+        };
+
+        // 創建Vue實例
+        new Vue({
+            el: "#root",
+            // 第二步: 註冊元件(區域的)
+            components: {
+                School,
+            },
+        });
+    </script>
+</html>

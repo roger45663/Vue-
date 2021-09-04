@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>基本使用</title>
+        <!-- 引入Vue -->
+        <script type="text/javascript" src="../js/vue.js"></script>
+    </head>
+    <body>
+        <div id="root">
+            <!-- 第三部: 使用元件標籤 -->
+            <App></App>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        // 第一步: 創建Student元件
+        const Student = Vue.extend({
+            template: `
+                <div>
+                    <p>學生姓名: {{studentName}}</p>
+                    <p>學生年齡: {{age}}</p>    
+                </div>
+            `,
+            data() {
+                return {
+                    studentName: "Peter",
+                    age: 10,
+                };
+            },
+        });
+
+        // 第一步: 創建School元件
+        const School = Vue.extend({
+            template: `
+                <div>
+                    <p>學校名稱: {{schoolName}}</p>
+                    <p>學校地址: {{address}}</p>
+                    <Student></Student>
+                </div>
+            `,
+            components: {
+                Student,
+            },
+            data() {
+                return {
+                    schoolName: "尚硅谷",
+                    address: "上海",
+                };
+            },
+        });
+
+        // 第一步: 創建Hello元件
+        const Hello = Vue.extend({
+            template: `<h1>Hello Vue!!!!</h1>`,
+        });
+
+        const App = Vue.extend({
+            template: `
+                <div>
+                    <Hello></Hello>
+                    <School></School>    
+                </div>
+            `,
+            components: {
+                Hello,
+                School,
+            },
+        });
+
+        // 創建Vue實例
+        new Vue({
+            el: "#root",
+            // 第二步: 註冊元件(區域的)
+            components: {
+                App,
+            },
+        });
+    </script>
+</html>
